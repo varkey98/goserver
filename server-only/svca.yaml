@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: svca
+  name: svca
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: svca
+  template:
+    metadata:
+      labels:
+        run: svca
+    spec:
+      nodeSelector:
+        cloud.google.com/gke-nodepool: app-pool
+      containers:
+      - name: svca
+        image: itspuneet59/multiplier:1.1
+        imagePullPolicy: IfNotPresent
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: svca
+  name: svca
+spec:
+  ports:
+  - name: http
+    port: 3000
+    targetPort: 3000
+  - name: https
+    port: 3443
+    targetPort: 3443
+  selector:
+    run: svca
+  sessionAffinity: None
+  type: LoadBalancer

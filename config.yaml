@@ -1,0 +1,48 @@
+service_name: sampling-test
+
+reporting:
+  endpoint: localhost:4317
+  secure: false
+  trace_reporter_type: OTLP
+
+opa:
+  enabled: false
+
+debug_log: true
+log_level: debug
+
+remote_config:
+  enabled: true
+  endpoint: fsefs :5441
+  poll_period_seconds: 30
+
+logging:
+  log_mode: LOG_MODE_STDOUT
+  log_level: LOG_LEVEL_TRACE
+  log_file:
+    max_files: 1
+    max_file_size: 104857600
+
+api_discovery:
+  enabled: true
+sampling:
+  enabled: true
+  default_rate_limit_config:
+    enabled: true
+    # maximum value supported by Int64, ref: https://go.dev/ref/spec#Numeric_types[
+    max_count_global: 9223372036854775807
+    max_count_per_endpoint: 3
+    refresh_period: "30s"
+    value_expiration_period: "168h"
+    span_type: SPAN_TYPE_NO_SPAN
+
+blocking_config:
+  enabled: true
+  modsecurity:
+    enabled: true
+  region_blocking:
+    enabled: true
+  evaluate_body: true
+  skip_internal_request: false
+  max_recursion_depth: 20
+
