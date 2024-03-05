@@ -66,7 +66,7 @@ func randomJsonHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	// Choose the port you want to listen on
-	port := "8080"
+	port := "8443"
 	listen, err := net.Listen("tcp", ":"+port)
 	if err != nil {
 		fmt.Println("Error listening:", err)
@@ -95,6 +95,9 @@ func handleConnection(conn net.Conn) {
 		// Read data from the connection
 		n, err := conn.Read(buffer)
 		if err != nil {
+			if err == io.EOF {
+				fmt.Println("error matched")
+			}
 			fmt.Println("Error reading:", err)
 			return
 		}
