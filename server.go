@@ -107,6 +107,5 @@ func handleConnection(conn net.Conn) {
 
 		// You can also send a response back to the client if needed
 		conn.Write([]byte("Hello, client!"))
-
 	}
 }
